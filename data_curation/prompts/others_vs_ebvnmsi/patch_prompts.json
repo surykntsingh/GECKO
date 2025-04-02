@@ -1,0 +1,27 @@
+{
+    "others": {
+      "Nuclear Pleomorphism": "Variation in nuclear size and shape; nuclei size disparity; irregular nuclear shapes; oval to highly irregular forms.",
+      "Hyperchromasia": "Nuclei appear darker; excess DNA content.",
+      "Irregular Nuclear Contours": "Uneven nuclear borders; indented nuclear contours.",
+      "Prominent Nucleoli": "Prominent nucleoli; increased number of nucleoli; sign of heightened protein synthesis; rapid cell division indicator.",
+      "Chromatin Clumping": "Irregular chromatin clumping; patchy nuclear appearance.",
+      "Multipolar spindles": "Multipolar spindles; asymmetric nuclear division; uneven genetic material distribution; cells with abnormal nuclear shapes and sizes.",
+      "Lymphovascular Invasion": "Tumor cells in lymphatic vessels; tumor cells in blood vessels; direct indication of metastasis.",
+      "Tumor Budding": "Small clusters of cancer cells at invasive front; individual cells at invasive front; sign of aggressive tumor phenotype; correlated with metastasis.",
+      "Desmoplasia": "Pronounced desmoplastic reaction; growth of fibrous tissue; connective tissue increase; association with aggressive tumors.",
+      "Signet Ring Cells": "Loss of E-cadherin function; CDH1 mutations; presence of signet ring cells; large vacuole in cells; nucleus at periphery; signet ring-like appearance; indicative of poor prognosis."
+    },
+    "EBVnMSI": {
+      "Lymphoepithelioma-like Histology": "EBV-positive; lymphoepithelioma-like carcinoma; large sheets; syncytial clusters; undifferentiated cells; prominent lymphoid infiltration; no glandular formation; non-keratinizing; vesicular nuclei; prominent nucleoli; desmoplastic reaction.",
+      "Syncytial trabecular pattern": "Syncytial trabecular pattern; nested growth; cord-like structures; indistinct cell borders; interconnected net-like structure.",
+      "Tumor Infiltrating Lymphocytes": "Tumor-infiltrating lymphocytes; dispersed or clustered; infiltrating between cells or stromal; indicative of immune response.",
+      "Intraepithelial Lymphocytosis": "Intraepithelial lymphocytes; small, round; dense nuclei; disrupts architecture; associated with neoplastic epithelium; stromal lymphoplasmacytic infiltration.",
+      "Stromal Lymphoplasmacytic Infiltration": "Lymphocytes in stroma; plasma cells present; small cells with large nuclei; abundant basophilic cytoplasm; interspersed infiltration; reactive changes; possible fibrosis or edema.",
+      "Medullary Growth Pattern": "Carcinomas; colorectal; MSI-H status; high neoantigen load; poorly differentiated; syncytial growth; abundant intraepithelial lymphocytes; dMMR tumors; solid sheets of cells.",
+      "Crohn's-like Lymphoid Reaction": "Dense lymphoid aggregates; tumor margin; robust immune response; neoantigens; dMMR tumors; Crohn's-like reaction.",
+      "Pushing (Expansile) Margins": "Expansive growth pattern; pushing borders; high neoantigen levels; immune containment; dMMR tumors; non-infiltrative margin; microsatellite stable (MSS) tumors contrast.",
+      "Pattern of Infiltration": "Vigorous immune infiltrate; variable PD-L1 positive cell distribution; invasive tumor margins; tumor nests; 'brisk' infiltration pattern; T cell band at tumor margin; 'non-brisk' infiltration pattern; scattered T cells throughout tumor.",
+      "Immune Cell Infiltration": "Significant number; lymphocytes; tumor tissue presence."
+    }
+}
+  

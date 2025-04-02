@@ -1,0 +1,26 @@
+{
+    "others": {
+        "Nuclear Pleomorphism": "Variation in nuclear size and shape; nuclei size disparity; irregular nuclear shapes; oval to highly irregular forms.",
+        "Lymphovascular Invasion": "Tumor cells in lymphatic vessels; tumor cells in blood vessels; direct indication of metastasis.",
+        "Desmoplasia": "Pronounced desmoplastic reaction; growth of fibrous tissue; connective tissue increase; association with aggressive tumors.",
+        "Tumor Budding": "Small clusters of cancer cells at invasive front; individual cells at invasive front; sign of aggressive tumor phenotype; correlated with metastasis.",
+        "Poorly Differentiated Tumor Cells": "High-grade dedifferentiation; higher likelihood of metastasis.",
+        "Hyperchromasia": "Nuclei appear darker; excess DNA content.",
+        "Increased TP53 Mutations": "TP53 enrichment in high-CIN tumors; link to mitotic stress; TP53 malfunctions; increased mitotic figures in histology; atypical nuclear features; increased nuclear size; irregular nuclear contours; hyperchromasia; prominent nucleoli; genomic instability; altered cell cycle regulation; variety of cell types; abnormal tumor structures.",
+        "Correlated Lauren's Intestinal Type": "Well-formed glandular structures; intestinal epithelium resemblance; chronic gastritis initiation; progression to atrophy; intestinal metaplasia; dysplasia; carcinoma development; common in high-incidence regions; environmental factor association; diet-related; Helicobacter pylori infection.",
+        "Prominent Nucleoli": "Prominent nucleoli; increased number of nucleoli; sign of heightened protein synthesis; rapid cell division indicator.",
+        "Tumor Heterogeneity": "CIN-induced genetic heterogeneity; RAS-driven proliferation of diverse cells; increased tumor complexity; potential influence on drug resistance; enhancement of metastatic potential."
+    },
+    "MSI": {
+        "Tumor-Infiltrating Lymphocytes": "High neoantigen load; immune cell infiltration; tumor tissue response; neoantigen presentation; dMMR tumors; prominent lymphocytic response; high TIL density; immune response to neoantigens.",
+        "Medullary Growth Pattern": "Carcinomas; colorectal; MSI-H status; high neoantigen load; poorly differentiated; syncytial growth; abundant intraepithelial lymphocytes; dMMR tumors; solid sheets of cells.",
+        "Crohn's-like Lymphoid Reaction": "Dense lymphoid aggregates; tumor margin; robust immune response; neoantigens; dMMR tumors; Crohn's-like reaction.",
+        "Pushing (Expansile) Margins": "Expansive growth pattern; pushing borders; high neoantigen levels; immune containment; dMMR tumors; non-infiltrative margin; microsatellite stable (MSS) tumors contrast.",
+        "Mucinous/Colloid Histology": "Abundance; extracellular mucin production; MSI-H tumors.",
+        "Necrosis and Dirty Necrosis": "High neoantigen loads; necrosis; cytotoxic immune response; tumor necrosis; 'dirty necrosis'; debris; nuclear dust; dMMR tumors commonality.",
+        "Varied Tumor Gland Morphology": "dMMR tumors; heterogeneous morphology; varied gland shapes; varied gland sizes; poor differentiation.",
+        "Signet Ring Cell Features": "Mucin-filled cells; peripheral nucleus; indicative of MSI-H; gastric cancer.",
+        "Immune Cell Infiltration": "Significant number; lymphocytes; tumor tissue presence.",
+        "Varied Glandular Architecture": "Disorganized structure; irregular gland formation; varied gland sizes; MSI-H tumors."   
+    }
+}

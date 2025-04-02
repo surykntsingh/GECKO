@@ -1,0 +1,27 @@
+{
+    "others": {
+      "Increased Mitotic Activity": "Increased mitotic rate; atypical mitotic figures; abnormal mitoses; high cellular proliferation.",
+      "Nuclear Pleomorphism": "Variation in nuclear size and shape; nuclei size disparity; irregular nuclear shapes; oval to highly irregular forms.",
+      "Hyperchromasia": "Nuclei appear darker; excess DNA content.",
+      "Irregular Nuclear Contours": "Uneven nuclear borders; indented nuclear contours.",
+      "Prominent Nucleoli": "Prominent nucleoli; increased number of nucleoli; sign of heightened protein synthesis; rapid cell division indicator.",
+      "Chromatin Clumping": "Irregular chromatin clumping; patchy nuclear appearance.",
+      "Multipolar spindles": "Multipolar spindles; asymmetric nuclear division; uneven genetic material distribution; cells with abnormal nuclear shapes and sizes.",
+      "Tumor Budding": "Small clusters of cancer cells at invasive front; individual cells at invasive front; sign of aggressive tumor phenotype; correlated with metastasis.",
+      "Lymphovascular Invasion": "Tumor cells in lymphatic vessels; tumor cells in blood vessels; direct indication of metastasis.",
+      "Desmoplasia": "Pronounced desmoplastic reaction; growth of fibrous tissue; connective tissue increase; association with aggressive tumors."
+    },
+    "EBV": {
+      "Lymphoepithelioma-like Histology": "EBV-positive; lymphoepithelioma-like carcinoma; large sheets; syncytial clusters; undifferentiated cells; prominent lymphoid infiltration; no glandular formation; non-keratinizing; vesicular nuclei; prominent nucleoli; desmoplastic reaction.",
+      "Tumor Infiltrating Lymphocytes": "Tumor-infiltrating lymphocytes; dispersed or clustered; infiltrating between cells or stromal; indicative of immune response.",
+      "Intraepithelial Lymphocytosis": "Intraepithelial lymphocytes; small, round; dense nuclei; disrupts architecture; associated with neoplastic epithelium; stromal lymphoplasmacytic infiltration.",
+      "Stromal Lymphoplasmacytic Infiltration": "Lymphocytes in stroma; plasma cells present; small cells with large nuclei; abundant basophilic cytoplasm; interspersed infiltration; reactive changes; possible fibrosis or edema.",
+      "Syncytial trabecular pattern": "Syncytial trabecular pattern; nested growth; cord-like structures; indistinct cell borders; interconnected net-like structure.",
+      "Lace-like Pattern": "Lace-like pattern; irregularly anastomosing tubules and cords; complex interconnected network; irregular net-like structure.",
+      "Lymphoid Stroma": "Lymphoid stroma infiltration; “lace-like” pattern; irregular tubules and cords; immune component in microenvironment; variable lymphoid infiltration.",
+      "Invasion into the Submucosa": "Invasion into submucosa; scattered cells to clusters; neoplastic cells breach muscularis mucosae; lymphocytic response around cancer cells.",
+      "Poor Differentiation": "Poorly differentiated adenocarcinomas; lacks specialized features; aggressive tumor; unformed glandular structures; infiltrating lymphoid stroma.",
+      "Ulcered or saucer-like tumor": "Central necrosis; ulceration with epithelial loss; robust inflammatory infiltrate; reactive cellular changes; marginal roll at ulcer edges; increased vascularity; surrounding fibrosis."
+    }
+}
+  

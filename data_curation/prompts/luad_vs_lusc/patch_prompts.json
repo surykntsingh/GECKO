@@ -1,0 +1,26 @@
+{
+  "LUAD": {
+    "Glandular Patterns": "Gland-like structures; tubular; acinar; papillary formations; lined by atypical cells; mucin production",
+    "Lepidic Growth": "Alveolar growth pattern; non-invasive; early adenocarcinomas; minimally invasive adenocarcinomas",
+    "Papillary Structures": "Papillary architecture; fibrovascular cores; malignant cells lining; mucin content",
+    "Micropapillary Features": "Micropapillary pattern; small cell clusters; no fibrovascular core; clear spaces from tissue processing",
+    "Solid Growth with Mucin": "Solid growth pattern with mucin; mucicarmine; periodic acid-Schiff stains usage",
+    "Growth Along Alveolar Walls": "Lepidic growth pattern; tumor cells along alveolar walls; non-invasive",
+    "Cellular and Nuclear Features": "Cell morphology variable; cuboidal to columnar shape; hobnail appearance; pleomorphic nuclei; prominent nucleoli",
+    "Scar Carcinoma": "Association with lung scarring or fibrosis; possible misdiagnosis on imaging; requires biopsy",
+    "Epithelial-to-mesenchymal Transition": "E-cadherin staining decrease; mesenchymal markers increase; cytoplasmic/membranous staining; EMT at invasive front",
+    "EGFR Protein Overexpression": "EGFR expression; membranous staining; possible cytoplasmic staining; cell membrane receptor"
+  },
+  "LUSC": {
+    "Keratinization and Intercellular Bridges": "Squamous differentiation; keratin production; keratin pearls; intercellular bridges",
+    "Cell Morphology": "Polygonal tumor cells; abundant eosinophilic cytoplasm; high keratin content",
+    "Nuclear Characteristics": "Hyperchromatic nuclei; prominent nucleoli; variable pleomorphism",
+    "Increased Cellular and Nuclear Pleomorphism": "Cellular and nuclear pleomorphism; increased variability; indicative of higher malignancy; IHC highlighted",
+    "High Mitotic Rate": "High mitotic figure count; rapid cell proliferation; visualized by mitotic markers",
+    "Tumor Budding": "Tumor budding presence; aggressive behavior indicator; cytokeratin stains highlight",
+    "Vascular and Lymphatic Invasion": "Tumor cells in blood vessels or lymphatics; potential for metastasis; CD31 and podoplanin (D2-40) markers",
+    "Desmoplastic Stroma": "Reactive stromal response; dense fibrous stroma surrounding tumor cells",
+    "Intraepithelial Tumor Growth": "Intraepithelial growth; tumor spread within epithelial structures",
+    "Cavitation": "Cavitation; central necrosis; more common in squamous cell carcinoma; visible on imaging"
+  }
+}
