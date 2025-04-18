@@ -43,12 +43,12 @@ python train_gecko.py --keep_ratio 0.7 --top_k 10 --cross_val_fold 0 --dataset_d
 In train_gecko.sh and train_gecko_with_gene.sh bash file, we provide example to conduct cross-validation:
 
 ```
-# chmod +x train_gecko.sh
-# ./train_gecko.sh /your/lists_feats_dir /your/experiment_dir /your/split_path_dir
+chmod +x train_gecko.sh
+./train_gecko.sh /your/lists_feats_dir /your/experiment_dir /your/split_path_dir
 
 
-# chmod +x train_gecko_with_gene.sh
-# ./train_gecko_with_gene.sh /your/lists_feats_dir /your/experiment_dir /your/split_path_dir /your/gene_exp_path
+chmod +x train_gecko_with_gene.sh
+./train_gecko_with_gene.sh /your/lists_feats_dir /your/experiment_dir /your/split_path_dir /your/gene_exp_path
 ```
 
 The Gene Expression data is provided here: [Data](https://drive.google.com/drive/folders/1AUcj53wuycHowVMFhPcZuYvw6GaXwfsr?usp=drive_link).
