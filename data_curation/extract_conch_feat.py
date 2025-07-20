@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 import pickle
 import argparse
+from torch.nn import functional as F
 
 sys.path.insert(1, 'CONCH')
 
@@ -45,27 +46,7 @@ custom_dataloader = DataLoader(custom_dataset, batch_size=128, shuffle=False, nu
 
 
 emb = None
-
-for images in tqdm(custom_dataloader):
-    images = images.to(device)
-    
-    with torch.inference_mode():
-        image_embs = model.encode_image(images, proj_contrast=True, normalize=True) # since we want cosine similarity
-
-    if emb is None:
-        emb = image_embs.clone()
-        
-    else:
-        emb = torch.cat((emb, image_embs.clone()), dim=0)
-
-print('emb.shape', emb.shape)
-
-torch.save(emb.cpu(), save_path + '/deep_features_for_cosine_sim.pth')
-
-del emb
-
-
-emb = None
+emb_for_cosine_sim = None
 
 for images in tqdm(custom_dataloader):
     images = images.to(device)
@@ -73,12 +54,42 @@ for images in tqdm(custom_dataloader):
     with torch.inference_mode():
         image_embs = model.encode_image(images, proj_contrast=False, normalize=False) 
 
+    image_embs_for_cosine_sim = F.normalize(image_embs @ model.visual.proj_contrast, dim=-1)    
+
     if emb is None:
         emb = image_embs.clone()
-        
+        emb_for_cosine_sim = image_embs_for_cosine_sim.clone()
     else:
         emb = torch.cat((emb, image_embs.clone()), dim=0)
+        emb_for_cosine_sim = torch.cat((emb_for_cosine_sim, image_embs_for_cosine_sim.clone()), dim=0)
 
 print('emb.shape', emb.shape)
+print('emb_for_cosine_sim.shape', emb_for_cosine_sim.shape)
 
 torch.save(emb.cpu(), save_path + '/deep_features.pth')
+torch.save(emb_for_cosine_sim.cpu(), save_path + '/deep_features_for_cosine_sim.pth')
+
+
+
+
+# For cosine similarity only:
+
+# emb = None
+
+# for images in tqdm(custom_dataloader):
+#     images = images.to(device)
+    
+#     with torch.inference_mode():
+#         image_embs = model.encode_image(images, proj_contrast=True, normalize=True) # since we want cosine similarity
+
+#     if emb is None:
+#         emb = image_embs.clone()
+        
+#     else:
+#         emb = torch.cat((emb, image_embs.clone()), dim=0)
+
+# print('emb.shape', emb.shape)
+
+# torch.save(emb.cpu(), save_path + '/deep_features_for_cosine_sim.pth')
+
+# del emb
