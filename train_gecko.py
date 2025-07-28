@@ -177,7 +177,7 @@ if __name__ == "__main__":
 
     # paths 
 
-    ROOT_SAVE_DIR = args.save_path + '/' + args.split_path.split('/')[-2] + '_keepratio' + str(args.keep_ratio)
+    ROOT_SAVE_DIR = args.save_path + '/' + '_keepratio' + str(args.keep_ratio)
 
     EXP_CODE = "topk{}_mintokensize{}_maxtokensize{}_lr{}_epochs{}_bs{}_temperatureNCE{}".format(
         args.top_k,
