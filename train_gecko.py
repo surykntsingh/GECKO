@@ -1,7 +1,8 @@
 # --> General imports
 import os
 import numpy as np
-from tqdm import tqdm
+from tqdm.auto import tqdm
+import h5py
 import json 
 import numpy as np
 from numpy.random import MT19937
@@ -41,99 +42,65 @@ def set_seed(SEED, disable_cudnn=False):
 
 
 class GeckoDataset(Dataset):
-    def __init__(self, args, features_deep_path, features_path, dataset_dict_path, max_n_tokens=None):
+    def __init__(self, features_deep_path, features_path, max_n_tokens=None):
 
-        with open(dataset_dict_path, 'rb') as f:
-            self.dataset_dict = pickle.load(f)
-
-        empty_keys_list = []
-        for i in self.dataset_dict:
-            if self.dataset_dict[i][1]-self.dataset_dict[i][0] == 0:
-                empty_keys_list.append(i)
-            
-        print('empty_keys_list: ', empty_keys_list)
-
-        for i in empty_keys_list:
-            del self.dataset_dict[i]
-
-
-        self.max_n_tokens = 0
-        for i in self.dataset_dict.keys():
-            if self.max_n_tokens < self.dataset_dict[i][1] - self.dataset_dict[i][0]:
-                self.max_n_tokens = self.dataset_dict[i][1] - self.dataset_dict[i][0]
-        
-        print('max number of tokens', self.max_n_tokens)
-
-        self.max_n_tokens = min(max_n_tokens, self.max_n_tokens)
+        self.max_n_token = max_n_tokens
 
         print('max number of tokens set to minimum of (dataset, fixed value of 2048)', self.max_n_tokens)
+        self.features_deep_path = features_deep_path
+        self.features_path = features_path
+        self.slides = [file.split('.')[0] for file in os.listdir(features_deep_path)]
 
-        self.features_deep_array = np.array(torch.load(features_deep_path).cpu().detach())
-        print(self.features_deep_array.shape)
-        
-        self.features_array = pd.read_csv(features_path)
-        self.features_array = self.features_array.set_index('Unnamed: 0')
-        print(self.features_array.shape)
-        
-        self.feats_size = self.features_array.shape[1]
-        self.feats_size_deep = self.features_deep_array.shape[1]
-
-        self.bags_path = list(self.dataset_dict.keys())
-
-        # from ConcepPath paper
-        train_path = []
-        test_path = []
-
-        fold_split = np.array(pd.read_csv(args.split_path + '/fold' + str(args.cross_val_fold) + '.csv').iloc[:,1:])
-
-        for i in self.bags_path:
-            for j in fold_split:
-                if i in j[0]:
-                    if j[-1] == 'train':
-                        train_path.append(i)
-                    elif j[-1] == 'test':
-                        test_path.append(i)
-                    break
-
-        self.bags_path = train_path
-
-
-        train_index_select_list = []
-        for i in train_path:  # from train and val both
-            train_index_select_list.extend(list(np.arange(self.dataset_dict[i][0], self.dataset_dict[i][1])))
-
-        self.features_array = np.array(self.features_array)
-
-        for i in range(self.features_array.shape[1]):
-            self.features_array[:, i] = (self.features_array[:, i] - self.features_array[train_index_select_list, i].min()) / (self.features_array[train_index_select_list, i].max() - self.features_array[train_index_select_list, i].min() + 1e-6)
-
+        self.feat_min, self.feat_max = self.__calculate_feat_stats()
+        assert len(self.slides)==len(os.listdir(features_path)), 'Number of deep features and concept priors do not match!'
 
     def __len__(self):
-        return len(self.bags_path)
+        return len(self.slides)
+
+    def __calculate_feat_stats(self):
+        print('calculating global concept features stats')
+        feat_array_min = []
+        feat_array_max = []
+        pbar = tqdm(self.slides, total=len(self.slides))
+        for _, slide in enumerate(pbar):
+            feat = np.array(pd.read_csv(f'{self.features_path}/{slide}.csv'))
+            feat_array_min.append(feat.min(axis=0))
+            feat_array_max.append(feat.max(axis=0))
+
+        feat_min = np.stack(feat_array_min).min(axis=0)
+        feat_max = np.stack(feat_array_max).max(axis=0)
+        print('Finished calculating global concept features stats')
+
+        return feat_min, feat_max
+
+    def __read_h5(self, slide_id):
+        with h5py.File(f'{self.features_deep_path}/{slide_id}.h5', "r") as h5_file:
+            embeddings_np = h5_file["features"][:]
+            embedding = torch.tensor(embeddings_np)
+            return embedding
+
+    def __normalize_feature(self, feat, delta=1e-9):
+        feat_norm = (feat-self.feat_min)/ (self.feat_max-self.feat_min+delta)
+        return feat_norm
+
 
     def __getitem__(self, idx):
-        split_info = self.dataset_dict[self.bags_path[idx]]
-
-
-        feats_deep = self.features_deep_array[split_info[0]:split_info[1]].copy()
-        feats = self.features_array[split_info[0]:split_info[1]].copy()	
-    
-        bag_feats_deep = torch.tensor(np.array(feats_deep), dtype=torch.float32)
-        bag_feats_deep = bag_feats_deep.view(-1, self.feats_size_deep)
+        slide_id = self.slides[idx]
+        bag_feats_deep = self.__read_h5(slide_id)
+        # bag_feats_deep = bag_feats_deep.view(-1, self.feats_size_deep)
         
-        bag_feats = torch.tensor(np.array(feats), dtype=torch.float32)
-        bag_feats = bag_feats.view(-1, self.feats_size)
+        bag_feats = pd.read_csv(f'{self.features_path}/{slide_id}.csv')
+        # bag_feats = bag_feats.view(-1, self.feats_size)
 
-        try:                      
-            if bag_feats.shape[0] > self.max_n_tokens:
-                patch_indices = np.random.choice(np.arange(bag_feats.shape[0]), self.max_n_tokens, replace=False)
-            elif bag_feats.shape[0] == self.max_n_tokens:
-                patch_indices = np.arange(bag_feats.shape[0])
-            else:
-                patch_indices = np.concatenate([np.arange(bag_feats.shape[0]), np.random.choice(np.arange(bag_feats.shape[0]), self.max_n_tokens-bag_feats.shape[0])])
-        except:
-            print(self.bags_path[idx], idx)
-            print(split_info)
+        bag_feats = self.__normalize_features(bag_feats)
+
+        if bag_feats.shape[0] > self.max_n_tokens:
+            patch_indices = np.random.choice(np.arange(bag_feats.shape[0]), self.max_n_tokens, replace=False)
+        elif bag_feats.shape[0] == self.max_n_tokens:
+            patch_indices = np.arange(bag_feats.shape[0])
+        else:
+            patch_indices = np.concatenate([np.arange(bag_feats.shape[0]), np.random.choice(np.arange(bag_feats.shape[0]), self.max_n_tokens-bag_feats.shape[0])])
+
 
         bag_feats_deep = bag_feats_deep[patch_indices].to(DEVICE)
         bag_feats = bag_feats[patch_indices].to(DEVICE)
@@ -261,14 +228,18 @@ if __name__ == "__main__":
 
     sys.stdout = PrintToLogger(sys.stdout)
 
+    # calculate deep feat stats
+
+
     print("* Setup dataset...")
     dataset = GeckoDataset(
-        args,
-        features_deep_path=args.features_deep_path, 
-        features_path=args.features_path, 
-        dataset_dict_path=args.dataset_dict_path,
+        features_deep_path=args.features_deep_path,
+        features_path=args.features_path,
         max_n_tokens=args.max_n_tokens,
     )
+
+
+
 
     # set up dataloader
     print("* Setup dataloader...")
