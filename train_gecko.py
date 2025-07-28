@@ -99,7 +99,7 @@ class GeckoDataset(Dataset):
         bag_feats = pd.read_csv(f'{self.features_path}/{slide_id}.csv')
         # bag_feats = bag_feats.view(-1, self.feats_size)
 
-        bag_feats = self.__normalize_features(bag_feats)
+        bag_feats = self.__normalize_feature(bag_feats)
 
         if bag_feats.shape[0] > self.max_n_tokens:
             patch_indices = np.random.choice(np.arange(bag_feats.shape[0]), self.max_n_tokens, replace=False)
