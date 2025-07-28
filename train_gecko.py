@@ -45,9 +45,8 @@ class GeckoDataset(Dataset):
     def __init__(self, features_deep_path, features_path, max_n_tokens=None):
         print(f'max_n_tokens:: {max_n_tokens}')
         self.max_n_tokens = max_n_tokens
-        print(f'self.max_n_token:: {self.max_n_token}')
 
-        # print('max number of tokens set to minimum of (dataset, fixed value of 2048)', self.max_n_tokens)
+        print('max number of tokens set to minimum of (dataset, fixed value of 2048)', self.max_n_tokens)
         self.features_deep_path = features_deep_path
         self.features_path = features_path
         self.slides = [file.split('.')[0] for file in os.listdir(features_deep_path)]
