@@ -53,10 +53,17 @@ class GeckoDataset(Dataset):
         self.slides = [file.split('.')[0] for file in os.listdir(features_deep_path)]
 
         self.feat_min, self.feat_max = self.__calculate_feat_stats()
+        self.feats_size, self.feats_size_deep = self.__get_feat_sizes()
         assert len(self.slides)==len(os.listdir(features_path)), 'Number of deep features and concept priors do not match!'
 
     def __len__(self):
         return len(self.slides)
+
+    def __get_feat_sizes(self):
+        feat = np.array(pd.read_csv(f'{self.features_path}/{self.slides[0]}.csv'))
+        deep_feat = self.__read_h5(self.slides[0])
+
+        return feat.shape[1], deep_feat.shape[1]
 
     def __calculate_feat_stats(self):
         print('calculating global concept features stats')
