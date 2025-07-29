@@ -90,7 +90,8 @@ class BClassifier(nn.Module):
 
         self.aux_ga = Attn_Net_Gated(L=self.top_k, hidden_dim=input_size_deep)
         
-        self.mlp_mixer = MLPMixer(num_tokens=input_size, dim=top_k, hidden_dim=input_size_deep, num_layers=mlp_layers) # changed from 128, 2		
+        self.mlp_mixer = MLPMixer(num_tokens=input_size, dim=top_k, hidden_dim=128 #=input_size_deep
+                                  , num_layers=mlp_layers) # changed from 128, 2
         
         self.stop_gradient = stop_gradient
 
