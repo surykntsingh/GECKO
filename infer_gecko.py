@@ -143,10 +143,10 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, t
      attention_test_bag_feature))
 
     for slide in bag_features_deep_dict:
-        print(bag_features_dict[slide].shape)
-        print(bag_features_deep_dict[slide].shape)
-        print(attention_test_bag_patch[slide].shape)
-        print(attention_test_bag_feature[slide].shape)
+        print('bag_features_dict',bag_features_dict[slide].shape)
+        print('bag_features_deep_dict', bag_features_deep_dict[slide].shape)
+        print('attention_test_bag_patch', attention_test_bag_patch[slide].shape)
+        print('attention_test_bag_feature', attention_test_bag_feature[slide].shape)
 
 if __name__=='__main__':
     # features_deep_path = '/mnt/saarthak/datasets/REG_processed/20x_512px_0px_overlap/features_conch_v1'
