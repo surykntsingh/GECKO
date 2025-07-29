@@ -83,7 +83,7 @@ class GeckoDataset(Dataset):
     def __read_h5(self, slide_id):
         with h5py.File(f'{self.features_deep_path}/{slide_id}.h5', "r") as h5_file:
             embeddings_np = h5_file["features"][:]
-            embedding = torch.tensor(embeddings_np)
+            embedding = torch.tensor(embeddings_np, dtype=torch.float32)
             return embedding
 
     def __normalize_feature(self, feat, delta=1e-9):
@@ -97,7 +97,7 @@ class GeckoDataset(Dataset):
         # bag_feats_deep = bag_feats_deep.view(-1, self.feats_size_deep)
         
         # bag_feats = pd.read_csv(f'{self.features_path}/{slide_id}.csv')
-        bag_feats = torch.tensor(np.array(pd.read_csv(f'{self.features_path}/{slide_id}.csv')))
+        bag_feats = torch.tensor(np.array(pd.read_csv(f'{self.features_path}/{slide_id}.csv')), dtype=torch.float32)
         # bag_feats = bag_feats.view(-1, self.feats_size)
 
         bag_feats = self.__normalize_feature(bag_feats)
