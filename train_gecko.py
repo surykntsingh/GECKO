@@ -78,7 +78,7 @@ class GeckoDataset(Dataset):
         feat_max = np.stack(feat_array_max).max(axis=0)
         print('Finished calculating global concept features stats')
 
-        return feat_min, feat_max
+        return torch.tensor(feat_min, dtype=torch.float32), torch.tensor(feat_max, dtype=torch.float32)
 
     def __read_h5(self, slide_id):
         with h5py.File(f'{self.features_deep_path}/{slide_id}.h5', "r") as h5_file:
