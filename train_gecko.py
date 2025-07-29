@@ -86,7 +86,7 @@ class GeckoDataset(Dataset):
             embedding = torch.tensor(embeddings_np, dtype=torch.float32)
             return embedding
 
-    def __normalize_feature(self, feat, delta=1e-9):
+    def __normalize_feature(self, feat, delta=1e-6):
         feat_norm = (feat-self.feat_min)/ (self.feat_max-self.feat_min+delta)
         return feat_norm
 
@@ -246,8 +246,8 @@ if __name__ == "__main__":
         max_n_tokens=args.max_n_tokens,
     )
 
-
-
+    d1 = dataset[0]
+    print(f'dataset dtype: {d1[0].dtype}, {d1[1].dtype} ')
 
     # set up dataloader
     print("* Setup dataloader...")
