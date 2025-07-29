@@ -1,10 +1,90 @@
+import os
 import numpy as np
+import pandas as pd
 import torch
+import h5py
 from tqdm import tqdm
 
-from train_gecko import GeckoDataset, DEVICE
+from train_gecko import DEVICE
+from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 import batched_simil as mil
+
+
+class GeckoDataset(Dataset):
+    def __init__(self, features_deep_path, features_path, max_n_tokens=None):
+        print(f'max_n_tokens:: {max_n_tokens}')
+        self.max_n_tokens = max_n_tokens
+
+        print('max number of tokens set to minimum of (dataset, fixed value of 2048)', self.max_n_tokens)
+        self.features_deep_path = features_deep_path
+        self.features_path = features_path
+        self.slides = [file.split('.')[0] for file in os.listdir(features_deep_path)]
+
+        self.feat_min, self.feat_max = self.__calculate_feat_stats()
+        self.feats_size, self.feats_size_deep = self.__get_feat_sizes()
+        assert len(self.slides) == len(
+            os.listdir(features_path)), 'Number of deep features and concept priors do not match!'
+
+    def __len__(self):
+        return len(self.slides)
+
+    def __get_feat_sizes(self):
+        feat = np.array(pd.read_csv(f'{self.features_path}/{self.slides[0]}.csv'))
+        deep_feat = self.__read_h5(self.slides[0])
+
+        return feat.shape[1], deep_feat.shape[1]
+
+    def __calculate_feat_stats(self):
+        print('calculating global concept features stats')
+        feat_array_min = []
+        feat_array_max = []
+        pbar = tqdm(self.slides, total=len(self.slides))
+        for _, slide in enumerate(pbar):
+            feat = np.array(pd.read_csv(f'{self.features_path}/{slide}.csv'))
+            feat_array_min.append(feat.min(axis=0))
+            feat_array_max.append(feat.max(axis=0))
+
+        feat_min = np.stack(feat_array_min).min(axis=0)
+        feat_max = np.stack(feat_array_max).max(axis=0)
+        print('Finished calculating global concept features stats')
+
+        return torch.tensor(feat_min, dtype=torch.float32), torch.tensor(feat_max, dtype=torch.float32)
+
+    def __read_h5(self, slide_id):
+        with h5py.File(f'{self.features_deep_path}/{slide_id}.h5', "r") as h5_file:
+            embeddings_np = h5_file["features"][:]
+            embedding = torch.tensor(embeddings_np, dtype=torch.float32)
+            return embedding
+
+    def __normalize_feature(self, feat, delta=1e-6):
+        feat_norm = (feat - self.feat_min) / (self.feat_max - self.feat_min + delta)
+        return feat_norm
+
+    def __getitem__(self, idx):
+        slide_id = self.slides[idx]
+        bag_feats_deep = self.__read_h5(slide_id)
+        # bag_feats_deep = bag_feats_deep.view(-1, self.feats_size_deep)
+
+        # bag_feats = pd.read_csv(f'{self.features_path}/{slide_id}.csv')
+        bag_feats = torch.tensor(np.array(pd.read_csv(f'{self.features_path}/{slide_id}.csv')), dtype=torch.float32)
+        # bag_feats = bag_feats.view(-1, self.feats_size)
+
+        bag_feats = self.__normalize_feature(bag_feats)
+
+        if bag_feats.shape[0] > self.max_n_tokens:
+            patch_indices = np.random.choice(np.arange(bag_feats.shape[0]), self.max_n_tokens, replace=False)
+        elif bag_feats.shape[0] == self.max_n_tokens:
+            patch_indices = np.arange(bag_feats.shape[0])
+        else:
+            patch_indices = np.concatenate([np.arange(bag_feats.shape[0]),
+                                            np.random.choice(np.arange(bag_feats.shape[0]),
+                                                             self.max_n_tokens - bag_feats.shape[0])])
+
+        bag_feats_deep = bag_feats_deep[patch_indices].to(DEVICE)
+        bag_feats = bag_feats[patch_indices].to(DEVICE)
+
+        return slide_id, bag_feats_deep, bag_feats
 
 
 def extract(ssl_model, dataloader):
@@ -18,17 +98,17 @@ def extract(ssl_model, dataloader):
 
     with torch.no_grad():
 
-        for i, (patch_emb_deep, patch_emb) in enumerate(tqdm(dataloader)):
+        for i, (slide_id, patch_emb_deep, patch_emb) in enumerate(tqdm(dataloader)):
 
             bag_features, _, _, bag_features_deep, A_feat, A_patch = ssl_model(patch_emb, patch_emb_deep)
 
             # labels_list.append(int(bag_label[0]))
 
-            bag_features_dict[i] = bag_features.squeeze(0).clone().cpu().detach()
-            bag_features_deep_dict[i] = bag_features_deep.squeeze(0).clone().cpu().detach()
+            bag_features_dict[slide_id] = bag_features.squeeze(0).clone().cpu().detach()
+            bag_features_deep_dict[slide_id] = bag_features_deep.squeeze(0).clone().cpu().detach()
 
-            attention_test_bag_patch[i] = A_patch.squeeze(0).squeeze(-1).clone().cpu().detach()
-            attention_test_bag_feature[i] = A_feat.squeeze(0).clone().cpu().detach()
+            attention_test_bag_patch[slide_id] = A_patch.squeeze(0).squeeze(-1).clone().cpu().detach()
+            attention_test_bag_feature[slide_id] = A_feat.squeeze(0).clone().cpu().detach()
 
     # labels_list = np.array(labels_list)
 
