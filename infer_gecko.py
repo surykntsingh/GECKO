@@ -104,11 +104,11 @@ def extract(ssl_model, dataloader):
 
             # labels_list.append(int(bag_label[0]))
 
-            bag_features_dict[slide_id] = bag_features.squeeze(0).clone().cpu().detach()
-            bag_features_deep_dict[slide_id] = bag_features_deep.squeeze(0).clone().cpu().detach()
+            bag_features_dict[slide_id[0]] = bag_features.squeeze(0).clone().cpu().detach()
+            bag_features_deep_dict[slide_id[0]] = bag_features_deep.squeeze(0).clone().cpu().detach()
 
-            attention_test_bag_patch[slide_id] = A_patch.squeeze(0).squeeze(-1).clone().cpu().detach()
-            attention_test_bag_feature[slide_id] = A_feat.squeeze(0).clone().cpu().detach()
+            attention_test_bag_patch[slide_id[0]] = A_patch.squeeze(0).squeeze(-1).clone().cpu().detach()
+            attention_test_bag_feature[slide_id[0]] = A_feat.squeeze(0).clone().cpu().detach()
 
     # labels_list = np.array(labels_list)
 
@@ -141,6 +141,12 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, t
 
     print((bag_features_dict, bag_features_deep_dict, attention_test_bag_patch,
      attention_test_bag_feature))
+
+    for slide in bag_features_deep_dict:
+        print(bag_features_dict[slide].shape)
+        print(bag_features_deep_dict[slide].shape)
+        print(attention_test_bag_patch[slide].shape)
+        print(attention_test_bag_feature[slide].shape)
 
 if __name__=='__main__':
     # features_deep_path = '/mnt/saarthak/datasets/REG_processed/20x_512px_0px_overlap/features_conch_v1'
