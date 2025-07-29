@@ -18,11 +18,11 @@ def extract(ssl_model, dataloader):
 
     with torch.no_grad():
 
-        for i, (patch_emb_deep, patch_emb, bag_label) in enumerate(tqdm(dataloader)):
+        for i, (patch_emb_deep, patch_emb) in enumerate(tqdm(dataloader)):
 
             bag_features, _, _, bag_features_deep, A_feat, A_patch = ssl_model(patch_emb, patch_emb_deep)
 
-            labels_list.append(int(bag_label[0]))
+            # labels_list.append(int(bag_label[0]))
 
             bag_features_dict[i] = bag_features.squeeze(0).clone().cpu().detach()
             bag_features_deep_dict[i] = bag_features_deep.squeeze(0).clone().cpu().detach()
@@ -30,9 +30,9 @@ def extract(ssl_model, dataloader):
             attention_test_bag_patch[i] = A_patch.squeeze(0).squeeze(-1).clone().cpu().detach()
             attention_test_bag_feature[i] = A_feat.squeeze(0).clone().cpu().detach()
 
-    labels_list = np.array(labels_list)
+    # labels_list = np.array(labels_list)
 
-    return labels_list, bag_features_dict, bag_features_deep_dict, attention_test_bag_patch, attention_test_bag_feature
+    return bag_features_dict, bag_features_deep_dict, attention_test_bag_patch, attention_test_bag_feature
 
 
 def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, top_k=10):
@@ -54,11 +54,12 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, t
 
     state_dict_weights = torch.load(model_weights_path)
     msg = ssl_model.load_state_dict(state_dict_weights, strict=False)
+    print(msg)
 
-    (labels_list, bag_features_dict, bag_features_deep_dict, attention_test_bag_patch,
+    (bag_features_dict, bag_features_deep_dict, attention_test_bag_patch,
      attention_test_bag_feature) = extract(ssl_model, dataloader)
 
-    print((labels_list, bag_features_dict, bag_features_deep_dict, attention_test_bag_patch,
+    print((bag_features_dict, bag_features_deep_dict, attention_test_bag_patch,
      attention_test_bag_feature))
 
 if __name__=='__main__':
