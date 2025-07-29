@@ -25,7 +25,7 @@ from torch.optim.lr_scheduler import LinearLR
 from contrastive_loss import InfoNCE, InfoNCE_with_false_negative_elimination
 import sys
 
-DEVICE = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def set_seed(SEED, disable_cudnn=False):
     torch.manual_seed(SEED)  # Seed the RNG for all devices (both CPU and CUDA).
