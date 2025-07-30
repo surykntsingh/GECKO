@@ -141,7 +141,7 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, o
 
     slides = bag_features_deep_dict.keys()
     pbar = tqdm(slides, total=len(slides))
-
+    os.makedirs(out_path, exist_ok=True)
     for i,slide_id in enumerate(pbar):
         h5_filename = f'{out_path}/{slide_id}.h5'
         with h5py.File(h5_filename, 'w') as f:
@@ -162,4 +162,4 @@ if __name__=='__main__':
     max_n_tokens = 2048
     model_weights_path = 'exp_2/_keepratio0.7/topk10_mintokensize512_maxtokensize2048_lr0.0001_epochs10_bs128_temperatureNCE0.01/0/checkpoint.pth'
     infer(features_deep_path, features_path, max_n_tokens, model_weights_path, out_path)
-    
+
