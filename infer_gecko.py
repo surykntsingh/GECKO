@@ -115,7 +115,7 @@ def extract(ssl_model, dataloader):
     return bag_features_dict, bag_features_deep_dict, attention_test_bag_patch, attention_test_bag_feature
 
 
-def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, top_k=10):
+def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, out_path, top_k=10):
     dataset = GeckoDataset(
         features_deep_path=features_deep_path,
         features_path=features_path,
@@ -139,14 +139,18 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, t
     (bag_features_dict, bag_features_deep_dict, attention_test_bag_patch,
      attention_test_bag_feature) = extract(ssl_model, dataloader)
 
-    print((bag_features_dict, bag_features_deep_dict, attention_test_bag_patch,
-     attention_test_bag_feature))
+    slides = bag_features_deep_dict.keys()
+    pbar = tqdm(slides, total=len(slides))
 
-    for slide in bag_features_deep_dict:
-        print('bag_features_dict',bag_features_dict[slide].shape)
-        print('bag_features_deep_dict', bag_features_deep_dict[slide].shape)
-        print('attention_test_bag_patch', attention_test_bag_patch[slide].shape)
-        print('attention_test_bag_feature', attention_test_bag_feature[slide].shape)
+    for i,slide_id in enumerate(pbar):
+        h5_filename = f'{out_path}/{slide_id}.h5'
+        with h5py.File(h5_filename, 'w') as f:
+            f.create_dataset('bag_feats', data=bag_features_dict[slide_id])
+            f.create_dataset('bag_feats_deep', data=bag_features_deep_dict[slide_id])
+            f.create_dataset('attention_bag_patches', data=attention_test_bag_patch[slide_id])
+            f.create_dataset('attention_bag_feats', data=attention_test_bag_feature[slide_id])
+
+    print('Finished writing features!')
 
 if __name__=='__main__':
     # features_deep_path = '/mnt/saarthak/datasets/REG_processed/20x_512px_0px_overlap/features_conch_v1'
@@ -154,6 +158,8 @@ if __name__=='__main__':
 
     features_deep_path = '/mnt/surya/projects/GECKO/test_data/test_feat_deep'
     features_path = '/mnt/surya/projects/GECKO/test_data/test_feat_con'
+    out_path = '/mnt/surya/projects/GECKO/test_data/output'
     max_n_tokens = 2048
     model_weights_path = 'exp_2/_keepratio0.7/topk10_mintokensize512_maxtokensize2048_lr0.0001_epochs10_bs128_temperatureNCE0.01/0/checkpoint.pth'
-    infer(features_deep_path, features_path, max_n_tokens, model_weights_path)
+    infer(features_deep_path, features_path, max_n_tokens, model_weights_path, out_path)
+    
