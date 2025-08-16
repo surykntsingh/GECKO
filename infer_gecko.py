@@ -160,8 +160,8 @@ if __name__=='__main__':
     # features_deep_path = '/mnt/surya/projects/GECKO/test_data/test_feat_deep'
     # features_path = '/mnt/surya/projects/GECKO/test_data/test_feat_con'
     # out_path = '/mnt/surya/projects/GECKO/test_data/output'
-    out_path = '/mnt/surya/dataset/REG_2025/gecko'
+    out_path = '/mnt/surya/dataset/REG_2025/gecko_woc'
     max_n_tokens = 2048
-    model_weights_path = 'exp_1/_keepratio0.7/topk10_mintokensize512_maxtokensize2048_lr0.0001_epochs50_bs128_temperatureNCE0.01/0/checkpoint.pth'
+    model_weights_path = 'exp_woc_1/_keepratio0.7/topk10_mintokensize512_maxtokensize2048_lr0.0001_epochs50_bs128_temperatureNCE0.01/0/checkpoint.pth'
     infer(features_deep_path, features_path, max_n_tokens, model_weights_path, out_path)
 
