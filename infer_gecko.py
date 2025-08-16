@@ -155,7 +155,7 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, o
 
 if __name__=='__main__':
     features_deep_path = '/mnt/saarthak/datasets/REG_processed/20x_512px_0px_overlap/features_conch_v1'
-    features_path = '/mnt/saarthak/datasets/REG_processed/20x_512px_0px_overlap/concept_prior_conch_v1'
+    features_path = '/mnt/saarthak/datasets/REG_processed/20x_512px_0px_overlap/concept_prior_conch_v1_with_organ_context'
 
     # features_deep_path = '/mnt/surya/projects/GECKO/test_data/test_feat_deep'
     # features_path = '/mnt/surya/projects/GECKO/test_data/test_feat_con'
