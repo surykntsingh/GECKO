@@ -1,3 +1,4 @@
+import argparse
 import os
 import numpy as np
 import pandas as pd
@@ -154,14 +155,14 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, o
     print('Finished writing features!')
 
 if __name__=='__main__':
-    features_deep_path = '/mnt/saarthak/datasets/REG_test2_revised_processed/20x_512px_0px_overlap/features_conch_v1'
-    features_path = '/mnt/saarthak/datasets/REG_test2_revised_processed/20x_512px_0px_overlap/concept_prior_conch_v1_with_organ_context'
+    parser = argparse.ArgumentParser(description='Configurations for GECKO inference')
 
-    # features_deep_path = '/mnt/surya/projects/GECKO/test_data/test_feat_deep'
-    # features_path = '/mnt/surya/projects/GECKO/test_data/test_feat_con'
-    # out_path = '/mnt/surya/projects/GECKO/test_data/output'
-    out_path = '/mnt/surya/dataset/REG_2025/gecko_t_woc'
-    max_n_tokens = 2048
-    model_weights_path = 'exp_t_woc_1/_keepratio0.7/topk10_mintokensize512_maxtokensize2048_lr0.0001_epochs50_bs128_temperatureNCE0.01/0/checkpoint.pth'
-    infer(features_deep_path, features_path, max_n_tokens, model_weights_path, out_path)
+    parser.add_argument('--features_deep_path', type=str, help='Deep feature path')
+    parser.add_argument('--features_concept_path', type=str, help='Concept feature path')
+    parser.add_argument('--out_path', type=str, default='',help='output path')
+    parser.add_argument('--max_n_tokens', type=int, default=2048, help='Max n tokens')
+    parser.add_argument('--model_weights_path', type=str, help='Trained model weights path')
 
+    args = parser.parse_args()
+    infer(args.features_deep_path, args.features_path, args.max_n_tokens, args.model_weights_path, args.out_path)
+    
