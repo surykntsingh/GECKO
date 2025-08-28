@@ -158,11 +158,10 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Configurations for GECKO inference')
 
     parser.add_argument('--features_deep_path', type=str, help='Deep feature path')
-    parser.add_argument('--features_concept_path', type=str, help='Concept feature path')
+    parser.add_argument('--features_path', type=str, help='Concept feature path')
     parser.add_argument('--out_path', type=str, default='',help='output path')
     parser.add_argument('--max_n_tokens', type=int, default=2048, help='Max n tokens')
     parser.add_argument('--model_weights_path', type=str, help='Trained model weights path')
 
     args = parser.parse_args()
     infer(args.features_deep_path, args.features_path, args.max_n_tokens, args.model_weights_path, args.out_path)
-    
