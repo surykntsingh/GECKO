@@ -15,11 +15,11 @@ import os
 tokenizer = get_tokenizer()
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--image_feat_path', type=str, default = "/mnt/saarthak/datasets/REG_test2_revised_processed/20x_512px_0px_overlap/features_conch_v1_cosine_sim_proj")
+parser.add_argument('--image_feat_path', type=str, default = "/mnt/surya/dataset/sbu/processed_features/20x_512px_0px_overlap/features_conch_v1_cosine_sim_proj")
 parser.add_argument('--patch_prompts_path', type=str, default = "prompts/patch_level_prompts.json")
-parser.add_argument('--save_path', type=str, default = '/mnt/saarthak/datasets/REG_test2_revised_processed/20x_512px_0px_overlap/concept_prior_conch_v1_with_organ_context')
-parser.add_argument('--conch_model_path', type=str, default = 'CONCH/checkpoints/conch/pytorch_model.bin')
-
+parser.add_argument('--save_path', type=str, default = '/mnt/surya/dataset/sbu/processed_features/20x_512px_0px_overlap/concept_prior_conch_v1_with_organ_context')
+parser.add_argument('--conch_model_path', type=str, default = '../CONCH/checkpoints/conch/pytorch_model.bin')
+parser.add_argument('--conch_model_type', type=str, default = 'conch_ViT-B-16')
 args = parser.parse_args()
 
 image_feat_path = args.image_feat_path
@@ -27,7 +27,7 @@ patch_prompts_path = args.patch_prompts_path
 save_path = args.save_path
 
 
-model, preprocess = create_model_from_pretrained('conch_ViT-B-16', args.conch_model_path, device='cuda')
+model, preprocess = create_model_from_pretrained(args.conch_model_type, args.conch_model_path, device='cuda')
 _ = model.eval()
 
 with open(patch_prompts_path, 'r', encoding='utf-8') as file:
