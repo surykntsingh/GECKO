@@ -8,7 +8,7 @@ from tqdm import tqdm
 import argparse
 import torch.nn.functional as F
 parser = argparse.ArgumentParser()
-sys.path.insert(1, 'GECKO/data_curation/CONCH')
+sys.path.insert(1, 'data_curation/CONCH')
 
 from conch.open_clip_custom import create_model_from_pretrained
 
