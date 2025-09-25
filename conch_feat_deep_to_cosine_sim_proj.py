@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--save_path', type=str, default = "/mnt/surya/dataset/sbu/processed_features/20x_512px_0px_overlap/features_conch_v1_cosine_sim_proj")
 parser.add_argument('--feature_dir', type=str, default = "/mnt/surya/dataset/sbu/processed_features/20x_512px_0px_overlap/features_conch_v1")
 parser.add_argument('--conch_model_type', type=str, default = 'conch_ViT-B-16')
-parser.add_argument('--conch_model_path', type=str, default = 'CONCH/checkpoints/conch/pytorch_model.bin')
+parser.add_argument('--conch_model_path', type=str, default = '../CONCH/checkpoints/conch/pytorch_model.bin')
 
 args = parser.parse_args()
 
