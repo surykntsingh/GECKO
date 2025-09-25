@@ -26,7 +26,7 @@ args = parser.parse_args()
 model, preprocess = create_model_from_pretrained('conch_ViT-B-16', args.conch_model_path, device=device)
 _ = model.eval()
 
-for path in tqdm(sorted(os.listdir(''))[:]):
+for path in tqdm(sorted(os.listdir(args.feature_dir))[:]):
     with h5py.File(f'/{args.feature_dir}/{path}', 'r') as f:
         features = f['features'][:]
         pooled = F.normalize(torch.Tensor(features).cuda() @ model.visual.proj_contrast, dim=-1)
