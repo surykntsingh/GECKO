@@ -7,7 +7,7 @@ import pickle
 import argparse
 from torch.nn import functional as F
 from tqdm import tqdm
-sys.path.insert(1, 'CONCH')
+sys.path.insert(1, 'data_curation/CONCH')
 from conch.open_clip_custom import tokenize, get_tokenizer
 from conch.open_clip_custom import create_model_from_pretrained
 import os
