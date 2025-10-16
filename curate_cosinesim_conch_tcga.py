@@ -36,8 +36,8 @@ with open(patch_prompts_path, 'r', encoding='utf-8') as file:
 patch_level_prompts_ = []
 
 for cancer_type, concepts in patch_level_prompts.items():
-    for term, concept in concepts.items():
-        patch_level_prompts_.append(f'{term}: {concept}')
+    for concept in concepts:
+        patch_level_prompts_.append(f'{concept["concept"]}: {concept["description"]}')
 
 patch_level_prompts_ = [name.replace("_", " ") for name in patch_level_prompts_]
 patch_level_prompts_ = [name[:-1] + ";" if name[-1] == '.' else name + ";" for name in patch_level_prompts_]
