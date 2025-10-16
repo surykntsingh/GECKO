@@ -16,7 +16,7 @@ tokenizer = get_tokenizer()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--image_feat_path', type=str, default = "/mnt/surya/dataset/TCGA_processed/gecko/features_conch_v1_cosine_sim_proj")
-parser.add_argument('--patch_prompts_path', type=str, default = "prompts/tcga_prompts.json")
+parser.add_argument('--patch_prompts_path', type=str, default = "prompts/tcga_concepts.json")
 parser.add_argument('--save_path', type=str, default = '/mnt/surya/dataset/TCGA_processed/gecko/tcga_concept_prior_conch_v1')
 parser.add_argument('--conch_model_path', type=str, default = '../CONCH/checkpoints/conch/pytorch_model.bin')
 parser.add_argument('--conch_model_type', type=str, default = 'conch_ViT-B-16')
