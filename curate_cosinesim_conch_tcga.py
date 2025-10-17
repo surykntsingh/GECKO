@@ -66,7 +66,7 @@ patch_text_features = torch.stack(patch_text_features, dim=0).cpu().detach()
 
 print('patch_text_features.shape', patch_text_features.shape)
 
-for path in tqdm(sorted(os.listdir(image_feat_path))[:]):
+for path in tqdm(sorted(os.listdir(image_feat_path))[:10000]):
     patch_features = torch.load(image_feat_path + '/' + path).cpu().detach()  # already norm values through CONCH
     # print('patch_features.shape', patch_features.shape)
 
