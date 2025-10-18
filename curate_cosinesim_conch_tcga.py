@@ -74,4 +74,4 @@ for path in tqdm(sorted(os.listdir(image_feat_path))[:]):
         # print('patch_features.shape', patch_features.shape)
 
         sim_matrix_raw_concept_df = pd.DataFrame(patch_features @ patch_text_features.t(), columns = patch_level_prompts_)
-        sim_matrix_raw_concept_df.to_csv(save_path + '/' + f'{slide_id}.csv)', index=False)
+        sim_matrix_raw_concept_df.to_csv(save_path + '/' + f'{slide_id}.csv', index=False)
