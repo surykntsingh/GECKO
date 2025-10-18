@@ -68,8 +68,10 @@ print('patch_text_features.shape', patch_text_features.shape)
 
 for path in tqdm(sorted(os.listdir(image_feat_path))[:]):
     # print(image_feat_path + '/' + path)
-    patch_features = torch.load(image_feat_path + '/' + path).cpu().detach()  # already norm values through CONCH
-    # print('patch_features.shape', patch_features.shape)
+    slide_id = path.split('.')[0]
+    if not os.path.isfile(f'{save_path}/{slide_id}.csv'):
+        patch_features = torch.load(image_feat_path + '/' + path).cpu().detach()  # already norm values through CONCH
+        # print('patch_features.shape', patch_features.shape)
 
-    sim_matrix_raw_concept_df = pd.DataFrame(patch_features @ patch_text_features.t(), columns = patch_level_prompts_)
-    sim_matrix_raw_concept_df.to_csv(save_path + '/' + path.replace(".pt", ".csv"), index=False)
+        sim_matrix_raw_concept_df = pd.DataFrame(patch_features @ patch_text_features.t(), columns = patch_level_prompts_)
+        sim_matrix_raw_concept_df.to_csv(save_path + '/' + f'{slide_id}.csv)', index=False)

@@ -28,7 +28,9 @@ _ = model.eval()
 
 for path in tqdm(sorted(os.listdir(args.feature_dir))[:]):
     # print(f'/{args.feature_dir}/{path}')
-    with h5py.File(f'/{args.feature_dir}/{path}', 'r') as f:
-        features = f['features'][:]
-        pooled = F.normalize(torch.Tensor(features).cuda() @ model.visual.proj_contrast, dim=-1)
-        torch.save(pooled, f'{args.save_path}/{path.replace(".h5", ".pt")}')
+    slide_id = path.split('.')[0]
+    if not os.path.isfile(f'{args.save_path}/{slide_id}.pt'):
+        with h5py.File(f'/{args.feature_dir}/{path}', 'r') as f:
+            features = f['features'][:]
+            pooled = F.normalize(torch.Tensor(features).cuda() @ model.visual.proj_contrast, dim=-1)
+            torch.save(pooled, f'{args.save_path}/{slide_id}.pt')
