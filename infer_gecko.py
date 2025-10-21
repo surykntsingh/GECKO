@@ -146,11 +146,12 @@ def infer(features_deep_path, features_path, max_n_tokens, model_weights_path, o
 
     for i,slide_id in enumerate(pbar):
         h5_filename = f'{out_path}/{slide_id}.h5'
-        with h5py.File(h5_filename, 'w') as f:
-            f.create_dataset('bag_feats', data=bag_features_dict[slide_id])
-            f.create_dataset('bag_feats_deep', data=bag_features_deep_dict[slide_id])
-            f.create_dataset('attention_bag_patches', data=attention_test_bag_patch[slide_id])
-            f.create_dataset('attention_bag_feats', data=attention_test_bag_feature[slide_id])
+        if not os.path.isfile(h5_filename):
+            with h5py.File(h5_filename, 'w') as f:
+                f.create_dataset('bag_feats', data=bag_features_dict[slide_id])
+                f.create_dataset('bag_feats_deep', data=bag_features_deep_dict[slide_id])
+                f.create_dataset('attention_bag_patches', data=attention_test_bag_patch[slide_id])
+                f.create_dataset('attention_bag_feats', data=attention_test_bag_feature[slide_id])
 
     print('Finished writing features!')
 
